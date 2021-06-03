@@ -1,15 +1,26 @@
-pipeline{
-    agent any
-    stages{
-        stage("Build"){
-            steps{
-                sh 'mvn -DskipTest clean package'
-            }
-        }
-        stage("Test"){
-            steps{
-                sh 'mvn test'
-            }
-        }
+pipeline {
+  agent any
+    
+  tools {nodejs "node"}
+    
+  stages {
+        
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/srikanthde/newrepository.git'
+      }
     }
+        
+    stage('Install dependencies') {
+      steps {
+        sh 'npm install'
+      }
+    }
+     
+    stage('Test') {
+      steps {
+         sh 'npm test'
+      }
+    }      
+  }
 }
